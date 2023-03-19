@@ -61,10 +61,20 @@ router.get('/:id', (req, res) => {
 
 // create new product
 router.post('/', (req, res) => {
-  req.body.tagIds = req.body.tagIds.split(',').map((tag) => tag.trim());
-  // the previous line of code is responsible 
-  // for splitting the tagIds into an array of strings
-  // and then mapping over the array to remove any whitespace
+  /*
+    req.body should look like this...
+    {
+      product_name: "Basketball",
+      price: 200.00,
+      stock: 3,
+      tagIds: [1, 2, 3, 4]
+    }
+
+
+  */
+  // req.body.tagIds = req.body.tagIds.split(',').map((tag) => tag.trim());
+
+
 
   Product.create(req.body)
     .then((product) => {
@@ -80,6 +90,7 @@ router.post('/', (req, res) => {
       }
       // if no product tags, just respond
       res.status(200).json(product);
+      console.log(product);
     })
     .then((productTagIds) => res.status(200).json(productTagIds))
     .catch((err) => {
